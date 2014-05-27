@@ -31,6 +31,5 @@ app = webapp2.WSGIApplication([
     ('/youtube',YoutubeHandler),
     ('/blob',BlobHandler),
     ('/upload',UploadHandler),
-    ('/serve/([^/]+)?',ServeHandler),
-    ('/list', VideoListHandler)],
+    ('/serve/([^/]+)?',ServeHandler)],
     debug=True)
