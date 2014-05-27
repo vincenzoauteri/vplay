@@ -1,0 +1,19 @@
+{% extends "public-base.html" %}
+{% block content %}
+
+{% macro show_file(name) -%}   
+
+<li class="span4">
+<a href="static/videos/{{name}}">{{name}}</a>
+</li>
+
+{%- endmacro %}
+
+    <ul class="thumbnails">
+      {% for file in file_list %}
+      {{ show_file(file) }}
+      {% endfor %}
+    </ul>
+  
+  
+{% endblock %}

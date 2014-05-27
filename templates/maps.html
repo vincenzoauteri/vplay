@@ -1,0 +1,182 @@
+{% extends 'public-base.html' %}
+{% block head%}
+{{super()}}
+
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map-canvas { height: 100% }
+</style>
+<script type="text/javascript"
+src="https://maps.googleapis.com/maps/api/js?sensor={{ sensor }}&language=es">
+</script>
+<script type="text/javascript">
+function initialize() {
+
+  var barPos= new google.maps.LatLng(41.3833, 2.1833);
+  var madPos= new google.maps.LatLng(40.4000, -3.6833);
+  var valPos= new google.maps.LatLng(39.4667, -0.3833);
+  var sevPos= new google.maps.LatLng(37.3772, -5.9869);
+  var corPos= new google.maps.LatLng(43.3715, -8.3960);
+  var bilPos= new google.maps.LatLng(43.2569, -2.9236);
+  var salPos= new google.maps.LatLng(40.9616, -5.6676);
+
+  var directionsService = new google.maps.DirectionsService();
+  var directionsDisplay = new google.maps.DirectionsRenderer();
+
+  var mapOptions = {
+center: madPos,
+        zoom: 6,
+        disableDoubleClickZoom:true,
+        draggable:false,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById("map-canvas"),
+                                mapOptions);
+  directionsDisplay.setMap(map);
+
+
+  var barMar= new google.maps.Marker({
+position: barPos,
+map: map,
+title: 'Barcelona'
+});
+
+  var madMar= new google.maps.Marker({
+position: madPos,
+map: map,
+title: 'Madrid'
+});
+
+  var sevMar= new google.maps.Marker({
+position: sevPos,
+map: map,
+title: 'Sevilla'
+});
+
+  var corMar= new google.maps.Marker({
+position: corPos,
+map: map,
+title: 'A Coruña'
+});
+
+  var valMar= new google.maps.Marker({
+position: valPos,
+map: map,
+title: 'Valencia'
+});
+
+  var bilMar= new google.maps.Marker({
+position: bilPos,
+map: map,
+title: 'Bilbao'
+});
+
+  var salMar= new google.maps.Marker({
+position: salPos,
+map: map,
+title: 'Salamanca'
+});
+
+
+var paths=[];
+var markers=[];
+var indexes=[];
+var image = {
+url:  'static/images/truck.png',
+      // This marker is 20 pixels wide by 32 pixels tall.
+size: new google.maps.Size(20, 20),
+        // The origin for this image is 0,0.
+        origin: new google.maps.Point(0,0),
+        // The anchor for this image is the base of the flagpole at 0,32.
+        anchor: new google.maps.Point(10, 10)
+};
+
+function drawMarkers() {
+    for (var i=0;i<markers.length;i++) {
+     markers[i].setVisible(false);
+    }
+    markers = [];
+
+    for (var i=0;i<paths.length;i++) {
+
+      if (indexes[i] >= paths[i].length) {
+        paths[i].reverse();
+        indexes[i] =0;
+      } else {
+        indexes[i]+=3;
+      }
+      latlon = (paths[i][indexes[i]]);
+      var title = 'truck',i;
+ var tempMark = new google.maps.Marker({
+position: latlon,
+map: map,
+icon: image,
+title: title
+});
+
+var markClick = function () { 
+  console.log("clicked");
+};
+
+
+google.maps.event.addListener(tempMark,'click',markClick);
+
+markers.push(tempMark);
+}
+
+}
+
+function startDraw() {
+  if (paths.length == 8) {
+    setInterval(drawMarkers,500);
+    for (var i=0;i<paths.length;i++) {
+      indexes.push(Math.round(Math.random()*paths[i].length));
+    }
+  }
+}
+
+
+
+function getPath(origin,dest) {
+
+  var request = {
+origin:origin,
+       destination:dest,
+       travelMode: google.maps.DirectionsTravelMode.DRIVING
+  };
+
+  directionsService.route(request, function(response, status) {
+                          if (status == google.maps.DirectionsStatus.OK) {
+                          //directionsDisplay.setDirections(response);
+                          paths.push(response.routes[0].overview_path.slice());
+                          console.log(paths);
+                          startDraw();
+
+                          }                     
+                          });
+
+}
+
+
+getPath(madPos,barPos);
+getPath(madPos,valPos);
+getPath(madPos,sevPos);
+getPath(madPos,corPos);
+getPath(barPos,bilPos);
+getPath(corPos,bilPos);
+getPath(sevPos,salPos);
+getPath(valPos,barPos);
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+{% endblock %}
+{% block content %}
+ <div id="map-canvas"/>
+   <p> API key:  {{ apikey }} </p>
+   <p> sensor: {{ sensor}} </p>
+{% endblock %}

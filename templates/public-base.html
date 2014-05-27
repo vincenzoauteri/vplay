@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+    {% block head %}
+    <title>vPlay{% block title %}{% endblock %}</title>
+    {% endblock %}
+
+    <!-- 1. skin -->
+    <link rel="stylesheet" href="//releases.flowplayer.org/5.4.6/skin/minimalist.css">
+
+    <!-- 2. jquery library -->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+
+
+    <!-- 3. flowplayer -->
+    <script src="//releases.flowplayer.org/5.4.6/flowplayer.min.js"></script>
+  
+
+    <!-- Bootstrap core CSS -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="../../assets/js/html5shiv.js"></script>
+      <script src="../../assets/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+
+    <body class="{% block bodyclass %}{% endblock %}">
+    
+    <!-- Facebook stuffs -->
+    <div id="fb-root"></div>
+    
+	<!-- Header
+	================================================== -->
+	<header id="header">
+
+		<!-- Navigation
+		================================================== -->
+		<nav class="navbar">
+		</nav>
+
+	</header>
+    
+	<!-- Content
+	================================================== -->    
+    {% block content %}
+    {% endblock %}
+
+	<!-- Footer
+	================================================== -->
+
+	<footer id="footer">
+	</footer><!-- end #footer -->
+
+
+	<!-- Javascript - Placed at the end of the document so the pages load faster 
+	================================================== -->
+
+    <script src="../static/assets/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+
+    </body>
+</html>

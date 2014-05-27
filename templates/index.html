@@ -1,0 +1,36 @@
+{% extends "public-base.html" %}
+{% block title %}{% endblock %}
+{% block bodyclass %}index{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/index.css">     
+{% endblock %}
+{% block content %}
+
+<h1 class="text-center">
+  vPlay 
+</h1>
+
+
+<div class="lead-container">
+
+
+  <div class="container">
+
+
+    <video width="320" height="240" controls>
+      <source type="video/mp4" src="static/videos/movie.mp4">
+     Video not supported.
+    </video>
+
+
+  </div>
+
+
+</div>
+
+
+<hr />
+
+{% endblock %}
+
