@@ -1,0 +1,3 @@
+#!/bin/bash
+#starts dev_server
+dev_appserver.py --skip_sdk_update_check=yes --port=8080 --admin_port=8001 --host 0.0.0.0 /Users/enzo/workspace/vplay

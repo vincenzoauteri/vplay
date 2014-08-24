@@ -1,0 +1,14 @@
+{% extends "public-base.html" %}
+{% block content %}
+
+<ul class="videos">
+  {% for video in videos%}
+  <!-- <li> <a href="/serve/{{ video[0] }}">{{ video[1] }}</a> </li>  -->
+  <li> <a href="/serve/{{ video[1] }}">{{ video[0] }}</a> </li>
+  {% endfor %}
+</ul>
+
+<a href="/blob">Upload new video</a>
+<a href="/delete">Delete videos</a>
+
+{% endblock %}
