@@ -6,17 +6,33 @@ import cgi
 from security import *
 import jinja2
 import logging
-from mail import *
 import urllib
 
 
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
+from google.appengine.ext import ndb
+
 
 jinja_env = jinja2.Environment(
         autoescape=True, loader = jinja2.FileSystemLoader(
             os.path.join(os.path.dirname(__file__), 'templates')))
 
+class Video(ndb.Model):
+    """Models an individual Guestbook entry with content and date."""
+    name = ndb.StringProperty()
+    blob= ndb.StringProperty()
+
+    @classmethod
+    def query_blob(cls, ancestor_key):
+      return cls.query(ancestor=ancestor_key).order(-cls.name)
+
+def init_db():
+    ancestor_key = ndb.Key("Videos","VideoKey");
+    #videos_entity = ancestor_key.get();
+    results = Video.query(ancestor=ancestor_key).order(-Video.name).fetch(20)
+    video = Video(parent=ancestor_key,name="test",blob="test")
+    video.put()
 
 #General 
 def render_str(template, **params):
@@ -93,8 +109,7 @@ class VideoListHandler(Handler):
 
     def render_front(self, entries={}):
         """utility function used to render the front page"""
-        path= os.path.join(os.path.dirname(__file__),'list')
-        self.render('list.html',file_list=os.listdir(path))
+        self.render('list.html',file_list=os.listdir('videos'))
 
     def get(self):
         """function called when the front page is requested"""
@@ -111,7 +126,8 @@ class FrontPageHandler(Handler):
 
     def render_front(self, entries={}):
         """utility function used to render the front page"""
-        self.render('index.html')
+        #self.render('index.html')
+        self.redirect('/library')
 
     def get(self):
         """function called when the front page is requested"""
@@ -119,21 +135,52 @@ class FrontPageHandler(Handler):
 
 class BlobHandler(Handler):
     def get(self):
-        blobs = [blob.key() for blob in blobstore.BlobInfo.all()]
-        names = [blob.filename for blob in blobstore.BlobInfo.all()]
-        tup = zip(blobs,names)
         upload_url = blobstore.create_upload_url('/upload')
-        self.render('blob.html',blobs=tup,upload_url=upload_url);
-#        self.response.out.write('<html><body>')
-#        self.response.out.write('<form action="%s" method="POST" enctype="multipart/form-data">' % upload_url)
-#        self.response.out.write("""Upload File: <input type="file" name="file"><br> <input type="submit"
-#               name="submit" value="Submit"> </form></body></html>""")
+        error = self.request.get("error")
+        logging.error(error)
+        error_desc=""
+        if error=="noname":
+            error_desc = "Upload file must have a name"
+        elif error=="nofile":
+            error_desc = "Error uploading file"
+
+        self.render('blob.html',error=error_desc,upload_url=upload_url);
+
+class VideoLibraryHandler(Handler):
+    def get(self):
+        ancestor_key = ndb.Key("Videos","VideoKey");
+        results = Video.query(ancestor=ancestor_key).order(Video.name).fetch(20)
+        tup = list()
+        for result in results:
+            tup.append((result.name,result.blob))
+        self.render('library.html',videos=tup);
+
+class DeleteVideoHandler(Handler):
+    def get(self):
+        ancestor_key = ndb.Key("Videos","VideoKey");
+        results = Video.query(ancestor=ancestor_key).order(Video.name).fetch(20)
+        tup = list()
+        for result in results:
+            tup.append((result.name,result.blob))
+        self.render('delete.html',videos=tup);
 
 class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
     def post(self):
+       ancestor_key = ndb.Key("Videos","VideoKey");
+       video_name = self.request.get("name")
        upload_files = self.get_uploads('file')  # 'file' is file upload field in the form
-       blob_info = upload_files[0]
-       self.redirect('/serve/%s' % blob_info.key())
+       if video_name and upload_files:
+            blob_info = upload_files[0]
+            video = Video(parent=ancestor_key,name=video_name,blob=str(blob_info.key()))
+            if video:
+                video.put()
+                self.redirect('/library')
+       elif not video_name :
+           error="noname"
+           self.redirect('/blob?error='+error);
+       elif not upload_files:
+           error="nofile"
+           self.redirect('/blob?error='+error);
 
 class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
     def get(self, resource):
@@ -142,5 +189,9 @@ class ServeHandler(blobstore_handlers.BlobstoreDownloadHandler):
       self.response.headers["Content-Type"] = "video/mp4"
       logging.error(self.response.headers)
       self.send_blob(blob_info)
+
+class TestHandler(Handler):
+    def get(self):
+      self.render("test.html")
 
 

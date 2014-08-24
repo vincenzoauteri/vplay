@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">                                                      
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">      
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
@@ -11,49 +11,25 @@
     <title>vPlay{% block title %}{% endblock %}</title>
     {% endblock %}
 
-    <!-- 1. skin -->
-    <link rel="stylesheet" href="//releases.flowplayer.org/5.4.6/skin/minimalist.css">
 
-    <!-- 2. jquery library -->
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-
-
-    <!-- 3. flowplayer -->
-    <script src="//releases.flowplayer.org/5.4.6/flowplayer.min.js"></script>
-  
 
     <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <link href="../static/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="../static/css/style.css" rel="stylesheet">
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-      <script src="../../assets/js/html5shiv.js"></script>
-      <script src="../../assets/js/respond.min.js"></script>
-    <![endif]-->
+                  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+               <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   </head>
+  <![endif]-->
 
 
     <body class="{% block bodyclass %}{% endblock %}">
     
-    <!-- Facebook stuffs -->
-    <div id="fb-root"></div>
-    
-	<!-- Header
-	================================================== -->
-	<header id="header">
-
-		<!-- Navigation
-		================================================== -->
-		<nav class="navbar">
-		</nav>
-
-	</header>
-    
-	<!-- Content
-	================================================== -->    
     {% block content %}
     {% endblock %}
 
@@ -67,8 +43,9 @@
 	<!-- Javascript - Placed at the end of the document so the pages load faster 
 	================================================== -->
 
-    <script src="../static/assets/js/jquery.js"></script>
-    <script src="../static/js/bootstrap.min.js"></script>
+    <!--<script src="//code.jquery.com/jquery-1.10.2.min.js"></script> -->
+    <script src="static/js/jquery-2.1.1.js"></script> 
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
 
     </body>
 </html>

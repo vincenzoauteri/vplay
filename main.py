@@ -27,9 +27,11 @@ from google.appengine.ext import db
 
 app = webapp2.WSGIApplication([
     ('/', FrontPageHandler),
-    ('/video', VideoHandler),
+    ('/video', VideoListHandler),
     ('/youtube',YoutubeHandler),
     ('/blob',BlobHandler),
     ('/upload',UploadHandler),
+    ('/library',VideoLibraryHandler),
+    ('/delete',DeleteVideoHandler),
     ('/serve/([^/]+)?',ServeHandler)],
     debug=True)

@@ -21,3 +21,14 @@ indexes:
   - name: wikipage_id
   - name: last_modified
     direction: desc
+
+- kind: Video
+  ancestor: yes
+  properties:
+  - name: name
+
+- kind: Video
+  ancestor: yes
+  properties:
+  - name: name
+    direction: desc
