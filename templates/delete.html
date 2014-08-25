@@ -1,10 +1,9 @@
 {% extends "public-base.html" %}
 {% block content %}
 
-<form action="">
+<form action="/delete" method="POST" enctype="multipart/form-data"> 
   {% for video in videos%}
-  <!-- <li> <a href="/serve/{{ video[0] }}">{{ video[1] }}</a> </li>  -->
-  <input type ="checkbox" name="deletelist" value={{ video[0] }}> {{ video[0] }}<br/>
+  <input type ="checkbox" name="delete_list" value={{ video[1] }}>{{ video[0] }}<br/>
   {% endfor %}
     <input type="submit" name="submit" value="Delete Videos"> 
 </form>

@@ -8,9 +8,6 @@ handlers:
 - url: /static
   static_dir: static
 
-- url: /videos
-  static_dir: videos
-
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico

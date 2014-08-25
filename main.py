@@ -24,8 +24,7 @@ from security import *
 from google.appengine.ext import db
 
 
-
-app = webapp2.WSGIApplication([
+routes = [
     ('/', FrontPageHandler),
     ('/video', VideoListHandler),
     ('/youtube',YoutubeHandler),
@@ -33,5 +32,8 @@ app = webapp2.WSGIApplication([
     ('/upload',UploadHandler),
     ('/library',VideoLibraryHandler),
     ('/delete',DeleteVideoHandler),
-    ('/serve/([^/]+)?',ServeHandler)],
+    ('/explorer',ExplorerHandler),
+    ('/serve/([^/]+)?',ServeHandler)]
+
+app = webapp2.WSGIApplication(routes,
     debug=True)
