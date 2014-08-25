@@ -1,0 +1,20 @@
+body {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+div {
+  text-align:center;
+  padding-top: 50px;
+}
+
+h1 {
+  margin: 0.67em 0;
+  font-size: 2em;
+}
+
+button {
+  padding: 20px 15px;
+  text-align: center;
+}
